@@ -1,0 +1,87 @@
+
+#include "json.h"
+
+int Scanner::ScanNextLexem()
+{
+	YYCTYPE at_cursor;
+
+	/*!re2c
+		DIGITS			= [0-9]+ ;
+		SIGN			= [\+\-]? ;
+		EXPONENT		= [Ee] ;
+		SPACE			= [ \t\r]+ ;
+		NEW_LINE		= "\n" ;
+		STRING			= "\"" ( "\\\"" | [^\"] )* "\"" ;
+		NULL			= "null" ;
+		FALSE			= "false" ;
+		TRUE			= "true" ;
+	*/
+
+	for (;;) {
+		m_current_state->location.column += (YYCURSOR - YYTOKEN);
+		YYTOKEN = YYCURSOR;
+		
+		/*!re2c
+
+		NEW_LINE
+		{
+			m_current_state->location.NewLine();
+			continue;	// Skip new line
+		}
+		
+		SPACE
+		{
+			continue;	// Skip white space
+		}
+
+		SIGN DIGITS "." DIGITS * ( EXPONENT SIGN DIGITS )?
+		{
+			at_cursor = *YYCURSOR;
+			*YYCURSOR = '\0';
+			yylval.number_double = strtod(YYTOKEN, NULL);
+			*YYCURSOR = at_cursor;
+			return json_double_number;
+		}
+
+		SIGN DIGITS
+		{
+			at_cursor = *YYCURSOR;
+			*YYCURSOR = '\0';
+			yylval.number_int = strtoll(YYTOKEN, NULL, 10);
+			*YYCURSOR = at_cursor;
+			return json_integer_number;
+		}
+
+		STRING
+		{
+			at_cursor = *YYCURSOR;
+			*YYCURSOR = '\0';
+			json_unescape_string(&yylval.string.data, &yylval.string.length, YYTOKEN + 1, yyleng - 2);
+			*YYCURSOR = at_cursor;
+			return json_string;
+		}
+
+		NULL
+		{
+			return json_null;
+		}
+		FALSE
+		{
+			return json_false;
+		}
+		
+		TRUE
+		{			
+			return json_true;
+		}
+		
+		.
+		{			
+			return *YYTOKEN;
+		}
+
+		*/
+	}
+}
+
+}
