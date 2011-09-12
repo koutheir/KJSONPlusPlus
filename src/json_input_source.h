@@ -14,6 +14,15 @@ public:
 	virtual bool EndOfInput() = 0;
 };
 
+class IFileInputSource :
+	public IInputSource
+{
+public:
+	virtual ~IFileInputSource() {}
+
+	virtual int Set(const char *filename) = 0;
+};
+
 
 class StringInputSource :
 	public IInputSource
@@ -35,7 +44,7 @@ public:
 
 
 class FileInputSource :
-	public IInputSource
+	public IFileInputSource
 {
 protected:
 	int m_fd;
@@ -45,8 +54,26 @@ public:
 	FileInputSource() : m_fd(-1), m_own_fd(false) {}
 	virtual ~FileInputSource() {this->Set(-1);}
 
-	int Set(const char *filename);
+	virtual int Set(const char *filename);
 	int Set(int fd, bool take_ownership=false);
+
+	virtual int Read(char *buffer, size_t size);
+	virtual bool EndOfInput();
+};
+
+class BufferedFileInputSource :
+	public IFileInputSource
+{
+protected:
+	FILE *m_fp;
+	bool m_own_fp;
+
+public:
+	BufferedFileInputSource() : m_fp(NULL), m_own_fp(false) {}
+	virtual ~BufferedFileInputSource() {this->Set(NULL, false);}
+
+	virtual int Set(const char *filename);
+	int Set(FILE *fp, bool take_ownership);
 
 	virtual int Read(char *buffer, size_t size);
 	virtual bool EndOfInput();

@@ -57,12 +57,12 @@ int Document::Persist(const Value& doc_root, const char* filename) const
 	return r;
 }
 
-int Document::Load(Value** doc_root, ParsingError &parsing_error, const char* filename)
+int Document::Load(Value** doc_root, ParsingError &parsing_error, const char* filename, bool buffered_mode)
 {
-	FileInputSource *input_source = new FileInputSource;
+	IFileInputSource *input_source = buffered_mode ? (IFileInputSource *)(new BufferedFileInputSource) : (IFileInputSource *)(new FileInputSource);
+	if (!input_source) return errno;
 	int r = input_source->Set(filename);
 	if (r) {delete input_source; return (errno = r);}
-
 	return this->Parse(doc_root, parsing_error, *input_source);
 }
 

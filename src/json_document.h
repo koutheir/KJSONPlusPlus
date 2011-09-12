@@ -39,7 +39,7 @@ public:
 
 	int Parse(Value** doc_root, ParsingError &parsing_error, IInputSource& input_source);
 
-	int Load(Value** doc_root, ParsingError &parsing_error, const char* filename);
+	int Load(Value** doc_root, ParsingError &parsing_error, const char* filename, bool buffered_mode=true);
 	int Persist(const Value& doc_root, const char* filename) const;
 
 	Value *Create() {return ValueFactory::CreateObject();}

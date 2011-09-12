@@ -34,6 +34,8 @@ protected:
 	size_t			m_buffer_size;
 	YYCTYPE			*m_buffer;
 
+	static const size_t	m_init_buffer_size;
+
 public:
 	YYCTYPE			*cursor, *limit, *marker, *token;
 	ScanLocation	location;
@@ -42,7 +44,8 @@ public:
 	ScannerState(IInputSource& input_source, bool take_ownership=false);
 	virtual ~ScannerState();
 
-	void ExpandBuffer(int additional_count);
+	int Initialize();
+	int ExpandBuffer(int additional_count);
 };
 
 
@@ -50,7 +53,7 @@ class Scanner
 {
 protected:	
 	ScannerState	*m_current_state;
-	static Scanner	*m_singleton_scanner;
+	static Scanner	m_singleton_scanner;
 
 public:
 	Scanner() : m_current_state(NULL) {}
@@ -59,7 +62,7 @@ public:
 	int ScanNextLexem();
 	void EndScan();
 	
-	static Scanner& SingletonScanner() {return *m_singleton_scanner;}
+	static Scanner& SingletonScanner() {return m_singleton_scanner;}
 	const ScannerState& CurrentState() {return *m_current_state;}
 };
 

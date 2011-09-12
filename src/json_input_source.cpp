@@ -79,4 +79,28 @@ bool FileInputSource::EndOfInput()
 	return (eof(m_fd) != 0);
 }
 
+int BufferedFileInputSource::Set(const char *filename)
+{
+	return this->Set(fopen(filename, "rb"), true);
+}
+
+int BufferedFileInputSource::Set(FILE *fp, bool take_ownership)
+{
+	if (m_own_fp && m_fp != NULL) fclose(m_fp);
+
+	m_fp = fp;
+	m_own_fp = take_ownership;
+	return (errno = 0);
+}
+
+int BufferedFileInputSource::Read(char *buffer, size_t size)
+{
+	return fread(buffer, 1, size, m_fp);
+}
+
+bool BufferedFileInputSource::EndOfInput()
+{
+	return (feof(m_fp) != 0);
+}
+
 }
