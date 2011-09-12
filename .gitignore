@@ -1,6 +1,5 @@
 *.suo
 *.sdf
-json\+\+.sdf
 *.opensdf
 Debug/*
 ipch/*
