@@ -28,6 +28,10 @@ int main()
 
 		cout << str << endl;
 
-		delete value;
+//		delete value;
 	}
+
+	auto i = (*value).ToObject().begin();
+	for (; i != (*value).ToObject().end(); i++)
+		wcout << (*i).first << " : " << (*i).second->Type() << endl;
 }

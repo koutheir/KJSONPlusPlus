@@ -103,13 +103,13 @@ int Value::UnescapeString(const char * escaped_str, int len, wchar_t **unescaped
 
 
 template <>
-inline char Value::HexToChar(int x)
+inline static char Value::HexToChar(int x)
 {
 	return (x >= 0 && x <= 9) ? (x + '0') : ((x >= 10 && x <= 15) ? (x - 10 + 'a') : '?');
 }
 
 template <>
-inline wchar_t Value::HexToChar(int x)
+inline static wchar_t Value::HexToChar(int x)
 {
 	return (x >= 0 && x <= 9) ? (x + L'0') : ((x >= 10 && x <= 15) ? (x - 10 + L'a') : L'?');
 }
