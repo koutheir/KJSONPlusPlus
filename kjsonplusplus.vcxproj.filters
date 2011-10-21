@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\json_engine.c">
+      <Filter>json\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_engine_interface.cpp">
+      <Filter>json\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_array_value.cpp">
+      <Filter>json\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_object_value.cpp">
+      <Filter>json\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_string_value.cpp">
+      <Filter>json\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_value.cpp">
+      <Filter>json\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_value_factory.cpp">
+      <Filter>json\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_document.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_scanner.cpp">
+      <Filter>json\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_parser.c">
+      <Filter>json\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_input_source.cpp">
+      <Filter>json\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\json_scanner.re2c.cpp">
+      <Filter>json\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utf8.cpp">
+      <Filter>json\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iso8601.cpp">
+      <Filter>json\helpers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\json_engine.h">
+      <Filter>json\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_value_factory.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_array_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_boolean_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_double_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_integer_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_null_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_object_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_string_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_type.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_document.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_scanner.h">
+      <Filter>json\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_parser.h">
+      <Filter>json\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_input_source.h">
+      <Filter>json\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_datetime_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utf8.h">
+      <Filter>json\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\os_spec.h">
+      <Filter>json\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\iso8601.h">
+      <Filter>json\helpers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="json">
+      <UniqueIdentifier>{277124d8-9a68-4bcb-a387-7d4200f43900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json\parser">
+      <UniqueIdentifier>{d313bb13-55dc-4ef3-9df9-46cc1fda473e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json\memory">
+      <UniqueIdentifier>{bd6d7157-a0ad-4f82-8539-c45f7874be5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json\helpers">
+      <UniqueIdentifier>{b58d747f-f983-4ee6-9a25-0bc672b5f740}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\json_parser.y">
+      <Filter>json\parser</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\json_scanner.re2c">
+      <Filter>json\parser</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

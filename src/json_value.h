@@ -13,6 +13,7 @@ public:
 	virtual int Add(const StringType& key, BooleanType contents)		{return EINVAL;}
 	virtual int Add(const StringType& key, IntegerType contents)		{return EINVAL;}
 	virtual int Add(const StringType& key, DoubleType contents)			{return EINVAL;}
+	virtual int Add(const StringType& key, DateTimeType contents)		{return EINVAL;}
 	virtual int Add(const StringType& key, const StringType& contents)	{return EINVAL;}
 	virtual int Add(const StringType& key, const ObjectType& contents)	{return EINVAL;}
 	virtual int Add(const StringType& key, const ArrayType& contents)	{return EINVAL;}
@@ -55,6 +56,7 @@ public:
 	DECLARE_NULL_BUFFER(Boolean);
 	DECLARE_NULL_BUFFER(Integer);
 	DECLARE_NULL_BUFFER(Double);
+	DECLARE_NULL_BUFFER(DateTime);
 	DECLARE_NULL_BUFFER(String);
 	DECLARE_NULL_BUFFER(Object);
 	DECLARE_NULL_BUFFER(Array);
@@ -108,6 +110,7 @@ public:
 	DECLARE_TO_TYPE_ACCESSORS(Boolean);
 	DECLARE_TO_TYPE_ACCESSORS(Integer);
 	DECLARE_TO_TYPE_ACCESSORS(Double);
+	DECLARE_TO_TYPE_ACCESSORS(DateTime);
 	DECLARE_TO_TYPE_ACCESSORS_REF(String);
 	DECLARE_TO_TYPE_ACCESSORS_REF(Object);
 	DECLARE_TO_TYPE_ACCESSORS_REF(Array);

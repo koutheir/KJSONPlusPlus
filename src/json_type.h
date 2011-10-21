@@ -15,6 +15,7 @@ enum DataType {
 	IntegerDataType,	///< int
 	DoubleDataType,		///< double
 	StringDataType,		///< " string-contents "
+	DateTimeDataType,	///< "YYYY-MM-DDThh:mm:ss.frZ" i.e. "2010-06-08T14:26:23.56Z"
 	ObjectDataType,		///< { list-of-pairs }
 	ArrayDataType		///< [ list-of-values ]
 };
@@ -27,6 +28,7 @@ typedef long long						IntegerType;	///< JSON integer type mapped to C++ type
 typedef double							DoubleType;		///< JSON double type mapped to C++ type
 typedef std::wstring					StringType;		///< JSON string type mapped to C++ type
 typedef std::string						StringUTF8Type;	///< JSON UTF-8 string type mapped to C++ type
+typedef struct tm						DateTimeType;	///< JSON date/time type mapped to C++ type (Extension to the standard)
 typedef std::pair<StringType, Value *>	PairType;		///< JSON pair type mapped to C++ type
 typedef std::map<StringType, Value *>	ObjectType;		///< JSON object type mapped to C++ type
 typedef std::vector<Value *>			ArrayType;		///< JSON array type mapped to C++ type

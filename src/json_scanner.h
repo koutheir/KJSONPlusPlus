@@ -20,7 +20,7 @@ struct ScanLocation
 {
 	size_t	line, column;
 
-	ScanLocation() : line(1), column(1) {}
+	ScanLocation(size_t Line=1, size_t Column=1) : line(Line), column(Column) {}
 
 	void Reset() {line = column = 1;}
 	void NewLine() {++line; column = 0;}
@@ -41,7 +41,7 @@ public:
 	ScanLocation	location;
 
 public:
-	ScannerState(IInputSource& input_source, bool take_ownership=false);
+	ScannerState(IInputSource& input_source, bool take_ownership=false, size_t LocationLine=1, size_t LocationColumn=1);
 	virtual ~ScannerState();
 
 	int Initialize();

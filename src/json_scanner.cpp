@@ -14,9 +14,9 @@ const size_t ScannerState::m_init_buffer_size = 5;
 Scanner	Scanner::m_singleton_scanner;
 
 
-ScannerState::ScannerState(IInputSource& input_source, bool take_ownership) :
+ScannerState::ScannerState(IInputSource& input_source, bool take_ownership, size_t LocationLine, size_t LocationColumn) :
 	m_input_source_owned(take_ownership), m_input_source(&input_source), m_buffer_size(0), m_buffer(NULL),
-	cursor(NULL), limit(NULL), marker(NULL), token(NULL)
+	cursor(NULL), limit(NULL), marker(NULL), token(NULL), location(LocationLine, LocationColumn)
 {
 }
 

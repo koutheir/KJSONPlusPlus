@@ -48,7 +48,16 @@ void * json_create_double_value(double value)
 void * json_create_string_value(wchar_t * value, int length, int take_ownership)
 {
 	JSON::StringType value_w(value, length);
+	if (take_ownership) free(value);
 	return JSON::ValueFactory::Create(JSON::StringDataType, &value_w);
+}
+
+void * json_create_datetime_value(wchar_t * value, int length, int take_ownership)
+{
+	struct tm tv;
+	JSON::ISO8601::FromString(tv, value, length);
+	if (take_ownership) free(value);
+	return JSON::ValueFactory::Create(JSON::DateTimeDataType, &tv);
 }
 
 void * json_create_empty_object_value()

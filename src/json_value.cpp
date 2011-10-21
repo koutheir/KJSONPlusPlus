@@ -6,12 +6,13 @@ namespace JSON {
 
 StringType		Value::m_True(L"true"), Value::m_False(L"false"), Value::m_Null(L"null"), Value::m_CurrentPadding;
 StringUTF8Type	Value::m_True_UTF8("true"), Value::m_False_UTF8("false"), Value::m_Null_UTF8("null"), Value::m_CurrentPadding_UTF8;
-int			Value::m_CurrentDocLevel = 0;
+int				Value::m_CurrentDocLevel = 0;
 
 const BooleanType	Value::m_NullBoolean(false);
 const IntegerType	Value::m_NullInteger(0);
 const DoubleType	Value::m_NullDouble(0.0);
 const StringType	Value::m_NullString;
+const DateTimeType	Value::m_NullDateTime;
 const ObjectType	Value::m_NullObject;
 const ArrayType		Value::m_NullArray;
 

@@ -43,8 +43,9 @@
      json_false = 259,
      json_true = 260,
      json_string = 261,
-     json_double_number = 262,
-     json_integer_number = 263
+     json_datetime = 262,
+     json_double_number = 263,
+     json_integer_number = 264
    };
 #endif
 
@@ -69,7 +70,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 73 ".\\src\\json_parser.h"
+#line 74 ".\\src\\json_parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

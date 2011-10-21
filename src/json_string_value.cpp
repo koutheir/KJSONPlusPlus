@@ -30,6 +30,14 @@ DoubleType StringValue::ToDouble()
 	return wcstod(m_Value.c_str(), &p);
 }
 
+DateTimeType StringValue::ToDateTime()
+{
+	DateTimeType v;
+	memset(&v, 0, sizeof(v));
+	ISO8601::FromString(v, m_Value);
+	return v;
+}
+
 template<class T>
 int StringValue::SerializeT(std::basic_string<T, std::char_traits<T>, std::allocator<T> >& sf) const
 {

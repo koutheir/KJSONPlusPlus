@@ -46,6 +46,7 @@ void * json_create_boolean_value(int value);
 void * json_create_integer_value(long long value);
 void * json_create_double_value(double value);
 void * json_create_string_value(wchar_t * value, int length, int take_ownership);
+void * json_create_datetime_value(wchar_t * value, int length, int take_ownership);
 
 void * json_create_empty_object_value();
 void * json_append_to_object_value(void * object, wchar_t * name, int name_length, void * value, int take_name_ownership, int destroy_object_if_fails);
