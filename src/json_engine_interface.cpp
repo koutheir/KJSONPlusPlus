@@ -1,11 +1,6 @@
 
 #include "json.h"
-
-//#include <stdlib.h>
-//#include <malloc.h>
-//#include <string.h>
-//#include <ctype.h>
-//#include <errno.h>
+#include "os_spec.h"
 
 
 //Report the syntactic error

@@ -9,6 +9,7 @@
 #define wcscasecmp	_wcsicmp
 #define wcstoll		_wcstoi64
 #define strtoll		_strtoi64
+#define strdup		_strdup
 
 #define wasctime	_wasctime
 #define stat		_stat
@@ -18,6 +19,7 @@
 #define close		_close
 //#define eof			_eof
 #define read		_read
+#define write		_write
 
 #else
 

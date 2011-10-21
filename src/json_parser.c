@@ -422,7 +422,7 @@ static const yytype_uint8 yyprhs[] =
 static const yytype_int8 yyrhs[] =
 {
       17,     0,    -1,    -1,    18,    -1,     3,    -1,     4,    -1,
-       5,    -1,     9,    -1,     8,    -1,     6,    -1,     7,    -1,
+       5,    -1,     9,    -1,     8,    -1,     7,    -1,     6,    -1,
       10,    11,    -1,    10,    19,    11,    -1,    12,    13,    -1,
       12,    20,    13,    -1,     6,    14,    18,    -1,    19,    15,
        6,    14,    18,    -1,    18,    -1,    20,    15,    18,    -1
@@ -478,7 +478,7 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     4,     5,     6,     9,    10,     8,     7,     0,     0,
+       2,     4,     5,     6,    10,     9,     8,     7,     0,     0,
        0,     3,     0,    11,     0,    13,    17,     0,     1,     0,
       12,     0,    14,     0,    15,     0,    18,     0,    16
 };
@@ -1409,14 +1409,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 51 ".\\src\\json_parser.y"
-    {(yyval.value) = json_create_string_value((yyvsp[(1) - (1)].string).data, (yyvsp[(1) - (1)].string).length, 1);;}
+    {(yyval.value) = json_create_datetime_value((yyvsp[(1) - (1)].string).data, (yyvsp[(1) - (1)].string).length, 1);;}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
 #line 52 ".\\src\\json_parser.y"
-    {(yyval.value) = json_create_datetime_value((yyvsp[(1) - (1)].string).data, (yyvsp[(1) - (1)].string).length, 1);;}
+    {(yyval.value) = json_create_string_value((yyvsp[(1) - (1)].string).data, (yyvsp[(1) - (1)].string).length, 1);;}
     break;
 
   case 11:
