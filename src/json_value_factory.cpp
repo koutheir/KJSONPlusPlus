@@ -27,6 +27,7 @@ Value *ValueFactory::Create(DataType obj_type, const void *init_data)
 	case DoubleDataType:	p = new DoubleValue;	break;
 	case StringDataType:	p = new StringValue;	break;
 	case DateTimeDataType:	p = new DateTimeValue;	break;
+	case BinaryDataType:	p = new BinaryValue;	break;
 	case ObjectDataType:	p = new ObjectValue;	break;
 	case ArrayDataType:		p = new ArrayValue;		break;
 	default:				errno = EINVAL; p = NULL;
@@ -60,6 +61,7 @@ IntegerValue* ValueFactory::CreateInteger(IntegerType init_data) {return static_
 DoubleValue* ValueFactory::CreateDouble(DoubleType init_data) {return static_cast<DoubleValue *>(ValueFactory::Create(DoubleDataType, &init_data));}
 StringValue* ValueFactory::CreateString(const StringType& init_data) {return static_cast<StringValue *>(ValueFactory::Create(StringDataType, &init_data));}
 DateTimeValue* ValueFactory::CreateDateTime(const DateTimeType& init_data) {return static_cast<DateTimeValue *>(ValueFactory::Create(DateTimeDataType, &init_data));}
+BinaryValue* ValueFactory::CreateBinary(const BinaryType& init_data) {return static_cast<BinaryValue *>(ValueFactory::Create(BinaryDataType, &init_data));}
 ObjectValue* ValueFactory::CreateObject() {return static_cast<ObjectValue *>(ValueFactory::Create(ObjectDataType));}
 ArrayValue* ValueFactory::CreateArray() {return static_cast<ArrayValue *>(ValueFactory::Create(ArrayDataType));}
 

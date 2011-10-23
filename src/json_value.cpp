@@ -13,6 +13,7 @@ const IntegerType	Value::m_NullInteger(0);
 const DoubleType	Value::m_NullDouble(0.0);
 const StringType	Value::m_NullString;
 const DateTimeType	Value::m_NullDateTime;
+const BinaryType	Value::m_NullBinary;
 const ObjectType	Value::m_NullObject;
 const ArrayType		Value::m_NullArray;
 

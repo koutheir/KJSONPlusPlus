@@ -49,10 +49,19 @@ void * json_create_string_value(wchar_t * value, int length, int take_ownership)
 
 void * json_create_datetime_value(wchar_t * value, int length, int take_ownership)
 {
-	struct tm tv;
+	JSON::DateTimeType tv;
 	JSON::ISO8601::FromString(tv, value, length);
 	if (take_ownership) free(value);
 	return JSON::ValueFactory::Create(JSON::DateTimeDataType, &tv);
+}
+
+void * json_create_binary_value(wchar_t * value, int length, int take_ownership)
+{
+	JSON::Base85::Decoder dec;
+	JSON::BinaryType data;
+	dec.Decode(value, length, data);
+	if (take_ownership) free(value);
+	return JSON::ValueFactory::Create(JSON::BinaryDataType, &data);
 }
 
 void * json_create_empty_object_value()

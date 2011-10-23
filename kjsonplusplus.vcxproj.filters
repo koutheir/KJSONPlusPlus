@@ -44,6 +44,12 @@
     <ClCompile Include="src\iso8601.cpp">
       <Filter>json\helpers</Filter>
     </ClCompile>
+    <ClCompile Include="src\buffer.cpp">
+      <Filter>json\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base85.cpp">
+      <Filter>json\helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\json_engine.h">
@@ -104,6 +110,15 @@
       <Filter>json\helpers</Filter>
     </ClInclude>
     <ClInclude Include="src\iso8601.h">
+      <Filter>json\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json_binary_value.h">
+      <Filter>json\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\buffer.h">
+      <Filter>json\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base85.h">
       <Filter>json\helpers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -30,9 +30,9 @@ DoubleType StringValue::ToDouble()
 	return wcstod(m_Value.c_str(), &p);
 }
 
-DateTimeType StringValue::ToDateTime()
+DateTimeType& StringValue::ToDateTime()
 {
-	DateTimeType v;
+	static DateTimeType v;
 	memset(&v, 0, sizeof(v));
 	ISO8601::FromString(v, m_Value);
 	return v;

@@ -30,6 +30,8 @@ public:
 	virtual int Add(const StringType& key, IntegerType value);
 	virtual int Add(const StringType& key, DoubleType value);
 	virtual int Add(const StringType& key, const StringType& value);
+	virtual int Add(const StringType& key, const DateTimeType& value);
+	virtual int Add(const StringType& key, const BinaryType& value);
 	virtual int Add(const StringType& key, const ObjectType& value);
 	virtual int Add(const StringType& key, const ArrayType& value);
 	virtual int Add(const StringType& key, Value& contents);

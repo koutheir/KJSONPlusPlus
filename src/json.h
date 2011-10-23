@@ -20,7 +20,9 @@ extern "C" int json_parse_bytes(const char *bytes, size_t length, void **param);
 #endif
 
 #include "os_spec.h"
+#include "buffer.h"
 #include "utf8.h"
+#include "base85.h"
 #include "iso8601.h"
 #include "json_type.h"
 #include "json_value.h"
@@ -28,6 +30,7 @@ extern "C" int json_parse_bytes(const char *bytes, size_t length, void **param);
 #include "json_boolean_value.h"
 #include "json_integer_value.h"
 #include "json_double_value.h"
+#include "json_binary_value.h"
 #include "json_datetime_value.h"
 #include "json_string_value.h"
 #include "json_object_value.h"

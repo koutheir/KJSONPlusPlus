@@ -24,7 +24,7 @@ public:
 
 	bool operator == (const DateTimeValue& obj) const {return this->Equals(obj);}
 
-	virtual DateTimeType ToDateTime()	{return m_Value;}
+	virtual DateTimeType& ToDateTime()	{return m_Value;}
 	virtual StringType& ToString()		{static StringType s; ISO8601::ToString(m_Value, s); return s;}
 
 	virtual int Serialize(StringType& sf) const

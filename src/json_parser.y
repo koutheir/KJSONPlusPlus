@@ -17,7 +17,7 @@
 }
 
 %token json_null json_false json_true
-%token <string> json_string json_datetime
+%token <string> json_string json_datetime json_binary
 %token <number_double> json_double_number
 %token <number_int> json_integer_number
 
@@ -49,6 +49,7 @@ json_value:
 	| json_integer_number		{$$ = json_create_integer_value($1);}
 	| json_double_number		{$$ = json_create_double_value($1);}
 	| json_datetime				{$$ = json_create_datetime_value($1.data, $1.length, 1);}
+	| json_binary				{$$ = json_create_binary_value($1.data, $1.length, 1);}
 	| json_string				{$$ = json_create_string_value($1.data, $1.length, 1);}
 	| '{' '}'					{$$ = json_create_empty_object_value();}
 	| '{' json_object_list '}'	{$$ = $2;}

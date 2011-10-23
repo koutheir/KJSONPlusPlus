@@ -21,7 +21,7 @@ public:
 	virtual BooleanType ToBoolean();
 	virtual IntegerType ToInteger();
 	virtual DoubleType ToDouble();
-	virtual DateTimeType ToDateTime();
+	virtual DateTimeType& ToDateTime();
 
 	template<class T> int SerializeT(std::basic_string<T, std::char_traits<T>, std::allocator<T> >& sf) const;
 	virtual int Serialize(StringType& sf) const;

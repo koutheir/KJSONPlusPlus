@@ -33,6 +33,7 @@ public:
 	static IntegerValue*	CreateInteger(IntegerType init_data);
 	static DoubleValue*		CreateDouble(DoubleType init_data=0.0);
 	static DateTimeValue*	CreateDateTime(const DateTimeType& init_data);
+	static BinaryValue*		CreateBinary(const BinaryType& init_data);
 	static StringValue*		CreateString(const StringType& init_data);
 	static ObjectValue*		CreateObject();
 	static ArrayValue*		CreateArray();

@@ -14,6 +14,7 @@
 	NULL				= "null" ;
 	FALSE				= "false" ;
 	TRUE				= "true" ;
+	BINARY_PREFIX		= "base85:<~" ;
 	YEAR				= INTEGER ;
 	MONTH				= ( "0" ? [1-9] ) | ( "1" [0-2] ) ;
 	DAY					= ( "0" ? [1-9] ) | ( [1-2] [0-9] ) | ( "3" [0-1] ) ;
@@ -28,6 +29,7 @@
 	TIME_ISO8601		= ISO8601_TIME_PREFIX ISO8601_TIME_FORMAT ISO8601_SUFFIX ;
 	DATE_ISO8601		= ISO8601_DATE_FORMAT ( ISO8601_TIME_PREFIX ISO8601_TIME_FORMAT )? ISO8601_SUFFIX ;
 	STRING_DATE			= STRING_DELIMITER ( DATE_ISO8601 | TIME_ISO8601 ) STRING_DELIMITER ;
+	STRING_BINARY		= STRING_DELIMITER BINARY_PREFIX ( STRING_CHAR )* STRING_DELIMITER ;
 	STRING				= STRING_DELIMITER ( STRING_CHAR )* STRING_DELIMITER ;
 */
 
@@ -77,6 +79,15 @@ int JSON::Scanner::ScanNextLexem()
 			json_unescape_string(&yylval.string.data, &yylval.string.length, YYTOKEN + 1, yyleng - 2);
 			*YYCURSOR = at_cursor;
 			return json_datetime;
+		}
+
+		STRING_BINARY
+		{
+			at_cursor = *YYCURSOR;
+			*YYCURSOR = '\0';
+			json_unescape_string(&yylval.string.data, &yylval.string.length, YYTOKEN + 8, yyleng - 9);
+			*YYCURSOR = at_cursor;
+			return json_binary;
 		}
 
 		STRING
