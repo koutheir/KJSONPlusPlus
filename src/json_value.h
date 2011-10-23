@@ -36,16 +36,16 @@ class Value;
 
 
 #define DECLARE_ADD_METHOD(type)	\
-	virtual int Add(const StringType& key, type##Type contents)			{return EINVAL;}
+	virtual int Add(const StringType& key, type##Type contents, bool overwrite = false)			{return EINVAL;}
 
 #define DECLARE_ADD_METHOD_REF(type)	\
-	virtual int Add(const StringType& key, const type##Type& contents)	{return EINVAL;}
+	virtual int Add(const StringType& key, const type##Type& contents, bool overwrite = false)	{return EINVAL;}
 
 class Object
 {
 public:
-	virtual int Add(DataType type, const StringType& key)			{return EINVAL;}
-	virtual int Add(const StringType& key, const Value& contents)	{return EINVAL;}
+	virtual int Add(DataType type, const StringType& key, bool overwrite = false)	{return EINVAL;}
+	virtual int Add(const StringType& key, Value& contents, bool overwrite = false)	{return EINVAL;}
 
 	DECLARE_ADD_METHOD(Boolean);
 	DECLARE_ADD_METHOD(Integer);
@@ -56,20 +56,44 @@ public:
 	DECLARE_ADD_METHOD_REF(Object);
 	DECLARE_ADD_METHOD_REF(Array);
 
-	virtual int Remove(const StringType& key)								{return EINVAL;}
+	virtual int Remove(const StringType& key)	{return EINVAL;}
+
+	virtual StringType* ChildKey(const StringType& key)											{return NULL;}
+	virtual const StringType* ChildKey(const StringType& key) const								{return const_cast<Object *>(this)->ChildKey(key);}
 
 	virtual Value* GetChild(const StringType& key, bool AbsentReturnsNull=false)				{return NULL;}
 	virtual const Value* GetChild(const StringType& key, bool AbsentReturnsNull=false) const	{return const_cast<Object *>(this)->GetChild(key, AbsentReturnsNull);}
 
-	virtual Value& operator [] (const StringType& key)				{return *this->GetChild(key, true);}
-	virtual const Value& operator [] (const StringType& key) const	{return *const_cast<Object *>(dynamic_cast<const Object *>(this))->GetChild(key, true);}
+	virtual Value& operator [] (const StringType& key)					{return *this->GetChild(key, true);}
+	virtual const Value& operator [] (const StringType& key) const		{return *const_cast<Object *>(dynamic_cast<const Object *>(this))->GetChild(key, true);}
 
-	virtual Value& operator [] (const wchar_t* key)				{return *this->GetChild(StringType(key), true);}
-	virtual const Value& operator [] (const wchar_t* key) const	{return *const_cast<Object *>(dynamic_cast<const Object *>(this))->GetChild(StringType(key), true);}
+	virtual Value& operator [] (const wchar_t* key)						{return *this->GetChild(StringType(key), true);}
+	virtual const Value& operator [] (const wchar_t* key) const			{return *const_cast<Object *>(dynamic_cast<const Object *>(this))->GetChild(StringType(key), true);}
+
+	virtual StringType& operator () (const StringType& key)				{return *this->ChildKey(key);}
+	virtual const StringType& operator () (const StringType& key) const	{return *const_cast<Object *>(dynamic_cast<const Object *>(this))->ChildKey(key);}
+
+	virtual StringType& operator () (const wchar_t* key)				{return *this->ChildKey(StringType(key));}
+	virtual const StringType& operator () (const wchar_t* key) const	{return *const_cast<Object *>(dynamic_cast<const Object *>(this))->ChildKey(StringType(key));}
 };
 
 #undef DECLARE_ADD_METHOD
 #undef DECLARE_ADD_METHOD_REF
+
+
+class Array
+{
+public:
+	virtual int Add(Value& contents)	{return EINVAL;}
+
+	virtual int Remove(int index)		{return EINVAL;}
+
+	virtual Value* GetChild(int index)				{return NULL;}
+	virtual const Value* GetChild(int index) const	{return const_cast<Array *>(this)->GetChild(index);}
+
+	virtual Value& operator [] (int index)					{return *this->GetChild(index);}
+	virtual const Value& operator [] (int index) const		{return *const_cast<Array *>(dynamic_cast<const Array *>(this))->GetChild(index);}
+};
 
 
 #define DECLARE_NULL_BUFFER(type)	\
@@ -85,7 +109,8 @@ public:
 
 
 class Value :
-	public Object
+	public Object,
+	public Array
 {
 	friend class ValueFactory;
 

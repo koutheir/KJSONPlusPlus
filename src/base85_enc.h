@@ -45,18 +45,18 @@ class Encoder
 protected:
 	uint32_t	m_Tuple;
 	int			m_Count;
-	void		*m_EncodedData;
+	void		*m_EncodedData, *m_EncodedDataStart;
 
 protected:
 	template<class T> void BeginEncoding(T* EncodedData);
 	template<class T> void Encode();
 	template<class T> void Encode(unsigned char c);
-	template<class T> void EndEncoding();
+	template<class T> void EndEncoding(size_t *EncodedLength = NULL);
 
 public:
 	virtual ~Encoder() {}
 
-	size_t GetEncodedSize(size_t Length) const {return (4 + Length + (Length >> 2) + ((Length % 4) ? 1 : 0));}
+	size_t GetMaxEncodedSize(size_t Length) const {return (4 + Length + (Length >> 2) + ((Length % 4) ? 1 : 0));}
 
 	template<class T> void Encode(const unsigned char* Data, size_t Length, T* EncodedData, size_t *EncodedLength = NULL);
 	template<class T> int Encode(const JSON::Buffer& Data, std::basic_string<T, std::char_traits<T>, std::allocator<T> >& EncodedData);
@@ -93,9 +93,11 @@ void Encoder::Encode(unsigned char c)
 	case 2:	m_Tuple |= (c <<  8); break;
 	case 3:
 		m_Tuple |= c;
-		if (m_Tuple == 0)
+		if (m_Tuple == 0) {
+			// For the sake of data compression, an all-zero group is encoded as
+			// a single character "z" instead of "!!!!!".
 			*EncodedData++ = 'z';
-		else
+		} else
 			this->Encode<T>();
 		m_Tuple = 0;
 		m_Count = 0;
@@ -110,40 +112,41 @@ void Encoder::BeginEncoding(T* encoded_data)
 
 	m_Tuple = 0;
 	m_Count = 0;
-	m_EncodedData = encoded_data;
+	m_EncodedData = m_EncodedDataStart = encoded_data;
 
 	*EncodedData++ = '<';
 	*EncodedData++ = '~';
 }
 
 template<class T>
-void Encoder::EndEncoding()
+void Encoder::EndEncoding(size_t *EncodedLength)
 {
 	T * & EncodedData = *reinterpret_cast<T **>(&m_EncodedData);
 	if (m_Count > 0) this->Encode<T>();
 
 	*EncodedData++ = '~';
 	*EncodedData++ = '>';
+
+	if (EncodedLength != NULL) *EncodedLength = (EncodedData - reinterpret_cast<T *>(m_EncodedDataStart));
 }
 
 template<class T>
 void Encoder::Encode(const unsigned char* Data, size_t Length, T* EncodedData, size_t *EncodedLength)
 {
-	if (EncodedLength != NULL) *EncodedLength = this->GetEncodedSize(Length);
-
 	this->BeginEncoding<T>(EncodedData);
 	for (size_t i=0; i<Length; ++i) this->Encode<T>(*Data++);
-	this->EndEncoding<T>();
+	this->EndEncoding<T>(EncodedLength);
 }
 
 template<class T>
 int Encoder::Encode(const JSON::Buffer& Data, std::basic_string<T, std::char_traits<T>, std::allocator<T> >& EncodedData)
 {
-	size_t EncodedLength = this->GetEncodedSize(Data.Size());
+	size_t EncodedLength = this->GetMaxEncodedSize(Data.Size());
 	EncodedData.resize(EncodedLength, '\0');
 	if (EncodedData.size() < EncodedLength) return (errno = ENOMEM);
 
-	this->Encode(Data.Data(), Data.Size(), const_cast<T *>(EncodedData.c_str()));
+	this->Encode(Data.Data(), Data.Size(), const_cast<T *>(EncodedData.c_str()), &EncodedLength);
+	EncodedData.resize(EncodedLength, '\0');
 	return (errno = 0);
 }
 

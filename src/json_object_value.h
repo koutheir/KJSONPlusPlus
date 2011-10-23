@@ -53,17 +53,20 @@ public:
 	virtual int Serialize(StringType& sf) const;
 	virtual int Serialize(StringUTF8Type& sf) const;
 
-	virtual int Add(DataType type, const StringType& key);
-	virtual int Add(const StringType& key, BooleanType value);
-	virtual int Add(const StringType& key, IntegerType value);
-	virtual int Add(const StringType& key, DoubleType value);
-	virtual int Add(const StringType& key, const StringType& value);
-	virtual int Add(const StringType& key, const DateTimeType& value);
-	virtual int Add(const StringType& key, const BinaryType& value);
-	virtual int Add(const StringType& key, const ObjectType& value);
-	virtual int Add(const StringType& key, const ArrayType& value);
-	virtual int Add(const StringType& key, Value& contents);
+	virtual int Add(DataType type, const StringType& key, bool overwrite = false);
+	virtual int Add(const StringType& key, Value& contents, bool overwrite = false);
+	virtual int Add(const StringType& key, BooleanType value, bool overwrite = false);
+	virtual int Add(const StringType& key, IntegerType value, bool overwrite = false);
+	virtual int Add(const StringType& key, DoubleType value, bool overwrite = false);
+	virtual int Add(const StringType& key, const StringType& value, bool overwrite = false);
+	virtual int Add(const StringType& key, const DateTimeType& value, bool overwrite = false);
+	virtual int Add(const StringType& key, const BinaryType& value, bool overwrite = false);
+	virtual int Add(const StringType& key, const ObjectType& value, bool overwrite = false);
+	virtual int Add(const StringType& key, const ArrayType& value, bool overwrite = false);
+	
 	virtual int Remove(const StringType& key);
+
+	virtual StringType* ChildKey(const StringType& key);
 	virtual Value* GetChild(const StringType& key, bool AbsentReturnsNull=false);
 };
 

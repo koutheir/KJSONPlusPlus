@@ -24,6 +24,11 @@ int main()
 	if (r)
 		cerr << "Line " << perr.ParsingLocation().line << ", Column " << perr.ParsingLocation().column << " : " << perr.ErrorMessage() << endl;
 	else {
+		(*value)(L"complex") = L"The new name";
+//		value->Add(L"The new name", (JSON::IntegerType)12, true);
+
+		(*value)[L"two"][0].ToInteger();
+
 		value->Serialize(str);
 
 		cout << str << endl;
@@ -32,6 +37,7 @@ int main()
 	}
 
 	auto i = (*value).ToObject().begin();
+
 	for (; i != (*value).ToObject().end(); i++)
 		wcout << (*i).first << " : " << (*i).second->Type() << endl;
 }

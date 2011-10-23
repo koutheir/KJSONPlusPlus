@@ -34,17 +34,17 @@ either expressed or implied, of Koutheir Attouchi.
 {	\
 	Value *obj = ValueFactory::Create(type##DataType, &contents);	\
 	if (!obj) return errno;			\
-	int r = this->Add(key, *obj);	\
+	int r = this->Add(key, *obj, overwrite);	\
 	if (r) delete obj;				\
 	return (errno = r);				\
 }
 
 #define IMPLEMENT_ADD_METHOD(type)	\
-int ObjectValue::Add(const StringType& key, type##Type contents)	\
+int ObjectValue::Add(const StringType& key, type##Type contents, bool overwrite)	\
 IMPLEMENT_ADD_METHOD_BODY(type)
 
 #define IMPLEMENT_ADD_METHOD_REF(type)	\
-int ObjectValue::Add(const StringType& key, const type##Type& contents)	\
+int ObjectValue::Add(const StringType& key, const type##Type& contents, bool overwrite)	\
 IMPLEMENT_ADD_METHOD_BODY(type)
 
 
@@ -154,12 +154,21 @@ int ObjectValue::Serialize(StringUTF8Type& sf) const
 	return r;
 }
 
-int ObjectValue::Add(const StringType& key, Value& contents)
+int ObjectValue::Add(const StringType& key, Value& contents, bool overwrite)
 {
-	return (m_Value.insert(PairType(key, &contents)).second ? 0 : EEXIST);
+	if (m_Value.insert(PairType(key, &contents)).second) return (errno = 0);	//Try inserting
+	if (!overwrite) return (errno = EEXIST);	//If don't overwrite then fail
+
+	//Remove the old pair
+	ObjectType::iterator i = m_Value.find(key);
+	delete i->second;
+	m_Value.erase(i);
+
+	//Retry inserting
+	return (errno = (m_Value.insert(PairType(key, &contents)).second ? 0 : ENOMEM));
 }
 
-int ObjectValue::Add(DataType type, const StringType& key)
+int ObjectValue::Add(DataType type, const StringType& key, bool overwrite)
 {
 	Value *obj = ValueFactory::Create(type);
 	if (!obj) return errno;
@@ -195,6 +204,13 @@ Value* ObjectValue::GetChild(const StringType& key, bool AbsentReturnsNull)
 		return NULL;
 	}
 	return i->second;
+}
+
+StringType* ObjectValue::ChildKey(const StringType& key)
+{
+	ObjectType::iterator i = m_Value.find(key);
+	if (i == m_Value.end()) return NULL;
+	return const_cast<StringType *>(&i->first);
 }
 
 }
