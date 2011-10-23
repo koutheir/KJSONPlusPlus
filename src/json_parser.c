@@ -70,11 +70,40 @@
 /* Line 189 of yacc.c  */
 #line 1 ".\\src\\json_parser.y"
 
+
+/*
+Copyright 2011-2011 Koutheir Attouchi. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL KOUTHEIR ATTOUCHI OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those
+of the authors and should not be interpreted as representing official policies,
+either expressed or implied, of Koutheir Attouchi.
+*/
+
 #include "json_engine.h"
 
 
 /* Line 189 of yacc.c  */
-#line 78 ".\\src\\json_parser.c"
+#line 107 ".\\src\\json_parser.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -119,7 +148,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 8 ".\\src\\json_parser.y"
+#line 37 ".\\src\\json_parser.y"
 
 	void *		value;
 	long long	number_int;
@@ -133,7 +162,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 137 ".\\src\\json_parser.c"
+#line 166 ".\\src\\json_parser.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -145,7 +174,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 149 ".\\src\\json_parser.c"
+#line 178 ".\\src\\json_parser.c"
 
 #ifdef short
 # undef short
@@ -433,8 +462,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    32,    32,    37,    46,    47,    48,    49,    50,    51,
-      52,    53,    54,    55,    56,    57,    61,    64,    69,    72
+       0,    61,    61,    66,    75,    76,    77,    78,    79,    80,
+      81,    82,    83,    84,    85,    86,    90,    93,    98,   101
 };
 #endif
 
@@ -1354,7 +1383,7 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 32 ".\\src\\json_parser.y"
+#line 61 ".\\src\\json_parser.y"
     {
 		(yyval.value) = 0;
 		YYACCEPT;
@@ -1364,7 +1393,7 @@ yyreduce:
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 38 ".\\src\\json_parser.y"
+#line 67 ".\\src\\json_parser.y"
     {
 		(yyval.value) = (yyvsp[(1) - (1)].value);
 		parsing_result->value = (yyvsp[(1) - (1)].value);
@@ -1375,119 +1404,119 @@ yyreduce:
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 46 ".\\src\\json_parser.y"
+#line 75 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_null_value();;}
     break;
 
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 47 ".\\src\\json_parser.y"
+#line 76 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_boolean_value(0);;}
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 48 ".\\src\\json_parser.y"
+#line 77 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_boolean_value(1);;}
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 49 ".\\src\\json_parser.y"
+#line 78 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_integer_value((yyvsp[(1) - (1)].number_int));;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 50 ".\\src\\json_parser.y"
+#line 79 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_double_value((yyvsp[(1) - (1)].number_double));;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 51 ".\\src\\json_parser.y"
+#line 80 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_datetime_value((yyvsp[(1) - (1)].string).data, (yyvsp[(1) - (1)].string).length, 1);;}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 52 ".\\src\\json_parser.y"
+#line 81 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_binary_value((yyvsp[(1) - (1)].string).data, (yyvsp[(1) - (1)].string).length, 1);;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 53 ".\\src\\json_parser.y"
+#line 82 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_string_value((yyvsp[(1) - (1)].string).data, (yyvsp[(1) - (1)].string).length, 1);;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 54 ".\\src\\json_parser.y"
+#line 83 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_empty_object_value();;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 55 ".\\src\\json_parser.y"
+#line 84 ".\\src\\json_parser.y"
     {(yyval.value) = (yyvsp[(2) - (3)].value);;}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 56 ".\\src\\json_parser.y"
+#line 85 ".\\src\\json_parser.y"
     {(yyval.value) = json_create_empty_array_value();;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 57 ".\\src\\json_parser.y"
+#line 86 ".\\src\\json_parser.y"
     {(yyval.value) = (yyvsp[(2) - (3)].value);;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 62 ".\\src\\json_parser.y"
+#line 91 ".\\src\\json_parser.y"
     {(yyval.value) = json_append_to_object_value(json_create_empty_object_value(), (yyvsp[(1) - (3)].string).data, (yyvsp[(1) - (3)].string).length, (yyvsp[(3) - (3)].value), 1, 1);;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 65 ".\\src\\json_parser.y"
+#line 94 ".\\src\\json_parser.y"
     {(yyval.value) = json_append_to_object_value((yyvsp[(1) - (5)].value), (yyvsp[(3) - (5)].string).data, (yyvsp[(3) - (5)].string).length, (yyvsp[(5) - (5)].value), 1, 1);;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 70 ".\\src\\json_parser.y"
+#line 99 ".\\src\\json_parser.y"
     {(yyval.value) = json_append_to_array_value(json_create_empty_array_value(), (yyvsp[(1) - (1)].value), 1);;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 73 ".\\src\\json_parser.y"
+#line 102 ".\\src\\json_parser.y"
     {(yyval.value) = json_append_to_array_value((yyvsp[(1) - (3)].value), (yyvsp[(3) - (3)].value), 1);;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1491 ".\\src\\json_parser.c"
+#line 1520 ".\\src\\json_parser.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1699,6 +1728,6 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 76 ".\\src\\json_parser.y"
+#line 105 ".\\src\\json_parser.y"
 
 

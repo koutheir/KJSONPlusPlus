@@ -57,7 +57,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 8 ".\\src\\json_parser.y"
+#line 37 ".\\src\\json_parser.y"
 
 	void *		value;
 	long long	number_int;
