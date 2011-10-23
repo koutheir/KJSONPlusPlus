@@ -26,8 +26,11 @@ public:
 
 	virtual int Serialize(StringType& sf) const
 	{
+		StringType encoded;
 		Base85::Encoder enc;
-		int r = enc.Encode(m_Value, sf);
+		int r = enc.Encode(m_Value, encoded);
+
+		this->EscapeString(encoded, sf);
 		sf.insert(0, L"\"base85:");
 		sf += L'\"';
 		return (errno = r);
@@ -35,8 +38,11 @@ public:
 
 	virtual int Serialize(StringUTF8Type& sf) const
 	{
+		StringType encoded;
 		Base85::Encoder enc;
-		int r = enc.Encode(m_Value, sf);
+		int r = enc.Encode(m_Value, encoded);
+
+		this->EscapeString(encoded, sf);
 		sf.insert(0, "\"base85:");
 		sf += '\"';
 		return (errno = r);

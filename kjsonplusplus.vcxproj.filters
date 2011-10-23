@@ -47,7 +47,7 @@
     <ClCompile Include="src\buffer.cpp">
       <Filter>json\helpers</Filter>
     </ClCompile>
-    <ClCompile Include="src\base85.cpp">
+    <ClCompile Include="src\base85_dec.cpp">
       <Filter>json\helpers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -118,7 +118,10 @@
     <ClInclude Include="src\buffer.h">
       <Filter>json\helpers</Filter>
     </ClInclude>
-    <ClInclude Include="src\base85.h">
+    <ClInclude Include="src\base85_dec.h">
+      <Filter>json\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base85_enc.h">
       <Filter>json\helpers</Filter>
     </ClInclude>
   </ItemGroup>

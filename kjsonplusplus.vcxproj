@@ -75,7 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\base85.cpp" />
+    <ClCompile Include="src\base85_dec.cpp" />
     <ClCompile Include="src\buffer.cpp" />
     <ClCompile Include="src\iso8601.cpp" />
     <ClCompile Include="src\json_array_value.cpp" />
@@ -104,7 +104,8 @@
     <ClCompile Include="src\utf8.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\base85.h" />
+    <ClInclude Include="src\base85_dec.h" />
+    <ClInclude Include="src\base85_enc.h" />
     <ClInclude Include="src\buffer.h" />
     <ClInclude Include="src\iso8601.h" />
     <ClInclude Include="src\json.h" />
