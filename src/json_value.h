@@ -6,19 +6,27 @@ namespace JSON {
 
 class Value;
 
+
+#define DECLARE_ADD_METHOD(type)	\
+	virtual int Add(const StringType& key, type##Type contents)			{return EINVAL;}
+
+#define DECLARE_ADD_METHOD_REF(type)	\
+	virtual int Add(const StringType& key, const type##Type& contents)	{return EINVAL;}
+
 class Object
 {
 public:
-	virtual int Add(DataType type, const StringType& key)					{return EINVAL;}
-	virtual int Add(const StringType& key, BooleanType contents)			{return EINVAL;}
-	virtual int Add(const StringType& key, IntegerType contents)			{return EINVAL;}
-	virtual int Add(const StringType& key, DoubleType contents)				{return EINVAL;}
-	virtual int Add(const StringType& key, const DateTimeType& contents)	{return EINVAL;}
-	virtual int Add(const StringType& key, const BinaryType& contents)		{return EINVAL;}
-	virtual int Add(const StringType& key, const StringType& contents)		{return EINVAL;}
-	virtual int Add(const StringType& key, const ObjectType& contents)		{return EINVAL;}
-	virtual int Add(const StringType& key, const ArrayType& contents)		{return EINVAL;}
-	virtual int Add(const StringType& key, Value& contents)					{return EINVAL;}
+	virtual int Add(DataType type, const StringType& key)			{return EINVAL;}
+	virtual int Add(const StringType& key, const Value& contents)	{return EINVAL;}
+
+	DECLARE_ADD_METHOD(Boolean);
+	DECLARE_ADD_METHOD(Integer);
+	DECLARE_ADD_METHOD(Double);
+	DECLARE_ADD_METHOD_REF(DateTime);
+	DECLARE_ADD_METHOD_REF(Binary);
+	DECLARE_ADD_METHOD_REF(String);
+	DECLARE_ADD_METHOD_REF(Object);
+	DECLARE_ADD_METHOD_REF(Array);
 
 	virtual int Remove(const StringType& key)								{return EINVAL;}
 
@@ -32,6 +40,9 @@ public:
 	virtual const Value& operator [] (const wchar_t* key) const	{return *const_cast<Object *>(dynamic_cast<const Object *>(this))->GetChild(StringType(key), true);}
 };
 
+#undef DECLARE_ADD_METHOD
+#undef DECLARE_ADD_METHOD_REF
+
 
 #define DECLARE_NULL_BUFFER(type)	\
 	static const type##Type	m_Null##type
@@ -43,6 +54,7 @@ public:
 #define DECLARE_TO_TYPE_ACCESSORS(type)	\
 	virtual type##Type To##type()				{return const_cast<type##Type&>(m_Null##type);}	\
 	virtual const type##Type To##type() const	{return const_cast<Value *>(this)->To##type();}
+
 
 class Value :
 	public Object
@@ -80,8 +92,8 @@ public:
 	template <class T>
 	static int EscapeString(const wchar_t * unescaped_str, int len, T **escaped_str, int *escaped_len);
 
-	static int EscapeString(const StringType& unescaped_str, StringType& escaped_str);
-	static int EscapeString(const StringType& unescaped_str, StringUTF8Type& escaped_str);
+	template <class T>
+	static int EscapeString(const StringType& unescaped_str, std::basic_string<T, std::char_traits<T>, std::allocator<T> >& escaped_str);
 
 	virtual bool Equals(const Value& /* obj */) const {return false;}	///< Generic type data is "always different"
 
@@ -119,6 +131,10 @@ public:
 	DECLARE_TO_TYPE_ACCESSORS_REF(Array);
 };
 
+#undef DECLARE_NULL_BUFFER
+#undef DECLARE_TO_TYPE_ACCESSORS
+#undef DECLARE_TO_TYPE_ACCESSORS_REF
+
 
 template<class T, enum DataType TypeID>
 class ValueT :
@@ -146,6 +162,74 @@ public:
 	virtual int Get(void **value)		{*value = &m_Value; return 0;}
 	virtual int Set(const void *value)	{m_Value = *static_cast<const T *>(value); return 0;}
 };
+
+
+template <>
+inline static char Value::HexToChar(int x)
+{
+	return (x >= 0 && x <= 9) ? (x + '0') : ((x >= 10 && x <= 15) ? (x - 10 + 'a') : '?');
+}
+
+template <>
+inline static wchar_t Value::HexToChar(int x)
+{
+	return (x >= 0 && x <= 9) ? (x + L'0') : ((x >= 10 && x <= 15) ? (x - 10 + L'a') : L'?');
+}
+
+template <class T>
+int Value::EscapeString(const wchar_t * unescaped_str, int len, T **escaped_str, int *escaped_len)
+{
+	T *target_ptr;
+	const wchar_t *src_ptr, *end_ptr;
+
+	end_ptr = (src_ptr = unescaped_str) + len;
+
+	//Allocating enough space for escaped string
+	if (!(*escaped_str = (T *)malloc(*escaped_len = (sizeof(T) * (len * 6 + 1))))) return errno;
+
+	for (target_ptr = *escaped_str; src_ptr < end_ptr; ++src_ptr, ++target_ptr) {
+		switch (*src_ptr) {
+		case L'\t':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'t'; break;
+		case L'\n':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'n'; break;
+		case L'\r':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'r'; break;
+		case L'\b':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'b'; break;
+		case L'\f':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'f'; break;
+		case L'\'':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'\''; break;
+		case L'\"':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'\"'; break;
+		case L'\\':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'\\'; break;
+		case L'/':	*(target_ptr++) = (T)'\\'; *target_ptr = (T)'/'; break;
+		default:
+			if (*src_ptr < L' ' || *src_ptr > L'~') {
+				*(target_ptr++)	= (T)'\\';
+				*(target_ptr++)	= (T)'u';
+				*(target_ptr++)	= Value::HexToChar<T>((*src_ptr >> 12) & 0xF);
+				*(target_ptr++)	= Value::HexToChar<T>((*src_ptr >> 8) & 0xF);
+				*(target_ptr++)	= Value::HexToChar<T>((*src_ptr >> 4) & 0xF);
+				*target_ptr		= Value::HexToChar<T>(*src_ptr & 0xF);
+			} else
+				*target_ptr = (T)(*src_ptr & 0xFF);
+		}
+	}
+
+	*target_ptr = L'\0';
+	*escaped_len = target_ptr - (*escaped_str);
+	*escaped_str = (T *)realloc(*escaped_str, sizeof(T) * (*escaped_len + 1));
+	return (errno = 0);
+}
+
+template <class T>
+int Value::EscapeString(const StringType& unescaped_str, std::basic_string<T, std::char_traits<T>, std::allocator<T> >& escaped_str)
+{
+	int r;
+	T *_escaped_str;
+	int _escaped_len;
+
+	if ((r = Value::EscapeString(unescaped_str.c_str(), unescaped_str.length(), &_escaped_str, &_escaped_len))) return r;
+	escaped_str.assign(_escaped_str, _escaped_len);
+	free(_escaped_str);
+
+	return (errno = 0);
+}
 
 }
 
