@@ -113,4 +113,12 @@ int ArrayValue::Serialize(StringUTF8Type& sf) const
 	return r;
 }
 
+int ArrayValue::Remove(int index)
+{
+	ArrayType::iterator i = m_Value.begin() + index;
+	delete (*i);
+	m_Value.erase(i);
+	return (errno = 0);
+}
+
 }

@@ -55,7 +55,7 @@ public:
 
 	virtual int Add(Value& contents)	{m_Value.push_back(&contents); return (errno = 0);}
 
-	virtual int Remove(int index)		{m_Value.erase(m_Value.begin() + index); return (errno = 0);}
+	virtual int Remove(int index);
 
 	virtual Value* GetChild(int index)	{return m_Value[index];}
 };
