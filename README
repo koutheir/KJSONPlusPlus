@@ -64,6 +64,7 @@ Limitations:
 * Progressive loading of JSON data is not supported.
 * ISO-8601 date & time format is not fully supported. Only the most common
 	form is supported. This should be enough for most usage cases.
+* No support for XPath-like access protocol.
 	
 ========
 Licence:
