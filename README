@@ -25,7 +25,7 @@ Features:
 	This delivers a very fast and flexible JSON scanner.
 * The library's JSON parser is automatically generated via Bison.
 	See http://www.gnu.org/s/bison/
-	See http://gnuwin32.sourceforge.net/packages/bison.htm
+	See http://gnuwin32.sourceforge.net/
 	This enables a very clean JSON parser.
 * The library is hierarchically divided into modules of classes that further
 	localize responsibilities.
