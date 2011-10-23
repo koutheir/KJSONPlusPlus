@@ -93,6 +93,8 @@ public:
 
 	virtual Value& operator [] (int index)					{return *this->GetChild(index);}
 	virtual const Value& operator [] (int index) const		{return *const_cast<Array *>(dynamic_cast<const Array *>(this))->GetChild(index);}
+
+	virtual Array& operator += (Value& contents) {this->Add(contents); return (*this);}
 };
 
 

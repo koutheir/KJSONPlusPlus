@@ -29,6 +29,8 @@ int main()
 
 		(*value)[L"two"][0].ToInteger();
 
+		(*value)[L"two"] += *JSON::ValueFactory::CreateNull();
+
 		value->Serialize(str);
 
 		cout << str << endl;
